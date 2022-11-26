@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyHome.Domain.Services;
+﻿using MyHome.Domain.Services;
 
 namespace MyHome.Domain.Aggregate
 {
-    public class Home
+    public class HomeQueue
     {
-        public Home()
+        public HomeQueue()
         {
             Families = new List<Family>();
         }
@@ -18,10 +13,12 @@ namespace MyHome.Domain.Aggregate
 
         public void AddFamily(Family family)
         {
+            if (family == null) throw new ArgumentNullException(nameof(family));
+
             Families.Add(family);
         }
 
-        public Family GetNextFamily(IOrderStrategy orderStrategy)
+        public Family GetAbleFamily(IOrderStrategy orderStrategy)
         {
             return orderStrategy.GetNextFamily(this);
         }

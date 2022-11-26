@@ -9,6 +9,6 @@ namespace MyHome.Domain.Services
 {
     public interface IOrderStrategy
     {
-        Family GetNextFamily(Home home);
+        Family GetNextFamily(HomeQueue home);
     }
 }

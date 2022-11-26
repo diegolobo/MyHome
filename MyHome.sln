@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{D7B90E9B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHome.Domain", "src\MyHome.Domain\MyHome.Domain\MyHome.Domain.csproj", "{6B1F3AF1-3A6C-4C1D-AC85-A4729D6F918D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHome.Tests", "src\MyHome.Tests\MyHome.Tests\MyHome.Tests.csproj", "{C91C5792-81EB-4959-BD32-F51AE0B50CA2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyHome.Domain.Tests", "src\MyHome.Tests\MyHome.Tests\MyHome.Domain.Tests.csproj", "{C91C5792-81EB-4959-BD32-F51AE0B50CA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

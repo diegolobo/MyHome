@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MyHome.Domain.Aggregate
+﻿namespace MyHome.Domain.Aggregate
 {
     public class Family
     {
-        public Family()
+        public Family(double income)
         {
             Dependents = new List<Dependent>();
+            Income = income;
         }
 
         public double Income { get; set; }
@@ -18,6 +13,8 @@ namespace MyHome.Domain.Aggregate
 
         public void AddDependent(Dependent dependent)
         {
+            if (dependent == null) throw new ArgumentNullException(nameof(dependent));
+
             Dependents.Add(dependent);
         }
     }
