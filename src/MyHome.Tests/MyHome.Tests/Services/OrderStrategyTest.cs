@@ -1,9 +1,9 @@
 ﻿using FluentAssertions;
-using MyHome.Domain.Aggregate;
+using MyHome.Domain.Aggregates;
 using MyHome.Domain.Services;
 using Xunit;
 
-namespace MyHome.Domain.Test.Services
+namespace MyHome.Domain.Tests.Services
 {
     public class OrderStrategyTest
     {
@@ -14,12 +14,12 @@ namespace MyHome.Domain.Test.Services
             Family family1 = new(900);
             Family family2 = new(1200);
 
-            HomeQueue queue = new();
+            HomeQueue queue = new(new OrderStrategy());
 
             queue.AddFamily(family1);
             queue.AddFamily(family2);
 
-            var ableFamily = queue.GetAbleFamily(new OrderStrategy());
+            var ableFamily = queue.GetAbleFamily();
 
             ableFamily.Should().Be(family1);
         }
@@ -30,16 +30,16 @@ namespace MyHome.Domain.Test.Services
             Family family1 = new(900);
             Family family2 = new(1200);
 
-            family2.AddDependent(new Dependent { BirthDate = DateTime.Today.AddYears(-17) });
-            family2.AddDependent(new Dependent { BirthDate = DateTime.Today.AddYears(-11) });
-            family2.AddDependent(new Dependent { BirthDate = DateTime.Today.AddYears(-9) });
+            family2.AddDependent(new Dependent { Name = "João 1", BirthDate = DateTime.Today.AddYears(-17) });
+            family2.AddDependent(new Dependent { Name = "João 2", BirthDate = DateTime.Today.AddYears(-11) });
+            family2.AddDependent(new Dependent { Name = "João 3", BirthDate = DateTime.Today.AddYears(-9) });
 
-            HomeQueue queue = new();
+            HomeQueue queue = new(new OrderStrategy());
 
             queue.AddFamily(family1);
             queue.AddFamily(family2);
 
-            var ableFamily = queue.GetAbleFamily(new OrderStrategy());
+            var ableFamily = queue.GetAbleFamily();
 
             ableFamily.Should().Be(family2);
         }
@@ -50,15 +50,15 @@ namespace MyHome.Domain.Test.Services
             Family family1 = new(900);
             Family family2 = new(1200);
 
-            family2.AddDependent(new Dependent { BirthDate = DateTime.Today.AddYears(-19) });
-            family2.AddDependent(new Dependent { BirthDate = DateTime.Today.AddYears(-20) });
+            family2.AddDependent(new Dependent { Name = "João 1", BirthDate = DateTime.Today.AddYears(-19) });
+            family2.AddDependent(new Dependent { Name = "João 2", BirthDate = DateTime.Today.AddYears(-20) });
            
-            HomeQueue queue = new();
+            HomeQueue queue = new(new OrderStrategy());
 
             queue.AddFamily(family1);
             queue.AddFamily(family2);
 
-            var ableFamily = queue.GetAbleFamily(new OrderStrategy());
+            var ableFamily = queue.GetAbleFamily();
 
             ableFamily.Should().Be(family1);
         }
@@ -66,11 +66,11 @@ namespace MyHome.Domain.Test.Services
         [Fact]
         public void When_add_families_invalid_or_null_should_be_throws_exception()
         {
-            Family family1 = null;
+            Family? family1 = null;
            
-            HomeQueue queue = new();
+            HomeQueue queue = new(new OrderStrategy());
 
-            Action act = () => queue.AddFamily(family1);
+            var act = () => queue.AddFamily(family1);
 
             act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("family");
         }
@@ -80,7 +80,7 @@ namespace MyHome.Domain.Test.Services
         {
             Family family1 = new(900);
 
-            Action act = () => family1.AddDependent(null);
+            var act = () => family1.AddDependent(null);
 
             act.Should().Throw<ArgumentNullException>().And.ParamName.Should().Be("dependent");
         }

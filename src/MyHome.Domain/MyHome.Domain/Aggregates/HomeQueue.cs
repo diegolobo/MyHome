@@ -1,6 +1,6 @@
 ﻿using MyHome.Domain.Services;
 
-namespace MyHome.Domain.Aggregate
+namespace MyHome.Domain.Aggregates
 {
     public class HomeQueue
     {
@@ -23,7 +23,7 @@ namespace MyHome.Domain.Aggregate
 
         public Family GetAbleFamily()
         {
-            return _orderStrategy.GetNextFamily(this);
+            return _orderStrategy.GetAbleFamily(this);
         }
 
         public void PopFamily()

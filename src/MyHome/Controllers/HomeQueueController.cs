@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using MyHome.Domain.Aggregate;
+using MyHome.Domain.Aggregates;
 using MyHome.Domain.Services;
 
 namespace MyHome.Controllers
@@ -10,19 +9,16 @@ namespace MyHome.Controllers
     [ApiController]
     public class HomeQueueController : ControllerBase
     {
-        private static HomeQueue _homeQueue;
+        private static HomeQueue? _homeQueue;
         public HomeQueueController(IOrderStrategy orderStrategy)
         {
-            if (_homeQueue == null)
-            {
-                _homeQueue = new(orderStrategy);
-            }
+            _homeQueue ??= new HomeQueue(orderStrategy);
         }
 
         [HttpPost]
         public ActionResult AddFamily([FromBody] Family family)
         {
-            _homeQueue.AddFamily(family);
+            _homeQueue?.AddFamily(family);
 
             return NoContent();
         }
@@ -31,20 +27,20 @@ namespace MyHome.Controllers
         [HttpGet]
         public ActionResult GetAbleFamily()
         {
-            return Ok(_homeQueue.GetAbleFamily());
+            return Ok(_homeQueue?.GetAbleFamily());
         }
 
         [HttpGet]
         [Route("all")]
         public ActionResult GetAll()
         {
-            return Ok(_homeQueue.Families);
+            return Ok(_homeQueue?.Families);
         }
 
         [HttpDelete]
         public ActionResult CleanQueue()
         {
-            _homeQueue.Families.Clear();
+            _homeQueue?.Families.Clear();
             return NoContent();
         }
 
@@ -52,7 +48,7 @@ namespace MyHome.Controllers
         [Route("pop")]
         public ActionResult PopFamily()
         {
-            _homeQueue.PopFamily();
+            _homeQueue?.PopFamily();
             return NoContent();
         }
     }

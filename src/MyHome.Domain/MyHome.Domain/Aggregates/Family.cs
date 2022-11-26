@@ -1,4 +1,4 @@
-﻿namespace MyHome.Domain.Aggregate
+﻿namespace MyHome.Domain.Aggregates
 {
     public class Family
     {
@@ -8,8 +8,8 @@
             Income = income;
         }
 
-        public double Income { get; set; }
-        public List<Dependent> Dependents { get; set; }
+        public double Income { get; }
+        public List<Dependent> Dependents { get; }
 
         public void AddDependent(Dependent dependent)
         {
@@ -17,5 +17,7 @@
 
             Dependents.Add(dependent);
         }
+
+        public static Family DefaultFamily => new(0);
     }
 }

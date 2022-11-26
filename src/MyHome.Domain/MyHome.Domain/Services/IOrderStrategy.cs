@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MyHome.Domain.Aggregate;
+﻿using MyHome.Domain.Aggregates;
 
 namespace MyHome.Domain.Services
 {
     public interface IOrderStrategy
     {
-        Family GetNextFamily(HomeQueue home);
+        Family GetAbleFamily(HomeQueue home);
     }
 }

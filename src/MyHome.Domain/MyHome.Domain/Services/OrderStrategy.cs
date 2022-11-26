@@ -1,55 +1,53 @@
-﻿using MyHome.Domain.Aggregate;
+﻿using MyHome.Domain.Aggregates;
 
 namespace MyHome.Domain.Services
 {
     public class OrderStrategy : IOrderStrategy
     {
-        private const int MIN_INCOME = 900;
-        private const int MAX_INCOME = 1500;
-        private const int MAX_AGE = 18;
+        private const int MinIncome = 900;
+        private const int MaxIncome = 1500;
+        private const int MaxAge = 18;
 
-        public Family GetNextFamily(HomeQueue home)
+        public Family GetAbleFamily(HomeQueue home)
         {
-            if (!home.Families.Any()) return null;
+            if (!home.Families.Any()) return Family.DefaultFamily;
 
-            Family nextFamily = home.Families.First();
+            var nextFamily = home.Families.First();
 
-            int maxTotalPointsFamily = 0;
+            var maxTotalPointsFamily = 0;
 
             foreach (var family in home.Families)
             {
-                int totalPoints = 0;
+                var totalPoints = GetIncomePoints(family) + GetAgePoints(family);
 
-                if (family.Income <= MIN_INCOME)
-                {
-                    totalPoints += 5;
-                }
-
-                if (family.Income > MIN_INCOME && family.Income <= MAX_INCOME)
-                {
-                    totalPoints += 3;
-                }
-
-                var countAbleDepentes = family.Dependents.Count(x => x.Age < MAX_AGE);
-
-                if (countAbleDepentes >= 3)
-                {
-                    totalPoints += 3;
-                }
-                else if (countAbleDepentes >= 1)
-                {
-                    totalPoints += 2;
-                }
-
-                if (totalPoints >= maxTotalPointsFamily)
-                {
-                    nextFamily = family;
-                    maxTotalPointsFamily = totalPoints;
-                }
+                if (totalPoints < maxTotalPointsFamily) continue;
+                nextFamily = family;
+                maxTotalPointsFamily = totalPoints;
             }
 
             return nextFamily;
+        }
 
+        private static int GetAgePoints(Family family)
+        {
+            var countAbleDependents = family.Dependents.Count(x => x.Age < MaxAge);
+
+            return countAbleDependents switch
+            {
+                >= 3 => 3,
+                >= 1 => 2,
+                _ => 0
+            };
+        }
+
+        private static int GetIncomePoints(Family family)
+        {
+            return family.Income switch
+            {
+                <= MinIncome => 5,
+                > MinIncome and <= MaxIncome => 3,
+                _ => 0
+            };
         }
     }
 }
