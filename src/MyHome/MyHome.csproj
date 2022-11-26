@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\MyHome.Domain\MyHome.Domain\MyHome.Domain.csproj" />
   </ItemGroup>
 
 </Project>

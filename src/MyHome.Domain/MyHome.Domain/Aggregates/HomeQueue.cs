@@ -4,8 +4,11 @@ namespace MyHome.Domain.Aggregate
 {
     public class HomeQueue
     {
-        public HomeQueue()
+        private readonly IOrderStrategy _orderStrategy;
+
+        public HomeQueue(IOrderStrategy orderStrategy)
         {
+            _orderStrategy = orderStrategy;
             Families = new List<Family>();
         }
 
@@ -18,9 +21,16 @@ namespace MyHome.Domain.Aggregate
             Families.Add(family);
         }
 
-        public Family GetAbleFamily(IOrderStrategy orderStrategy)
+        public Family GetAbleFamily()
         {
-            return orderStrategy.GetNextFamily(this);
+            return _orderStrategy.GetNextFamily(this);
+        }
+
+        public void PopFamily()
+        {
+            var family = GetAbleFamily();
+
+            Families.Remove(family);
         }
     }
 }
