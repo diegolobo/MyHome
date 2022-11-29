@@ -18,6 +18,9 @@ namespace MyHome.Domain.Services
 
             foreach (var family in home.Families)
             {
+                if (!family.IsAble)
+                    continue;
+
                 var totalPoints = GetIncomePoints(family) + GetAgePoints(family);
 
                 if (totalPoints < maxTotalPointsFamily) continue;

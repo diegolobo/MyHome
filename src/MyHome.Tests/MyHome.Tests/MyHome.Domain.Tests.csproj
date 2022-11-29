@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Aggregates\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\MyHome.Domain\MyHome.Domain\MyHome.Domain.csproj" />
   </ItemGroup>
 
